@@ -1,24 +1,35 @@
 import { useState } from 'react';
-import { HStack, IconButton, VStack, useTheme, Text, Heading, FlatList } from 'native-base';
-import { SignOut} from "phosphor-react-native"
+import { useNavigation } from '@react-navigation/native';
+import {
+  Center,
+  HStack,
+  IconButton,
+  VStack,
+  useTheme,
+  Text,
+  Heading,
+  FlatList,
+} from 'native-base';
+import { SignOut } from 'phosphor-react-native';
+import { ChatTeardropText } from 'phosphor-react-native';
 
-import Logo from "../assets/logo_secondary.svg";
+import Logo from '../assets/logo_secondary.svg';
 import { Filter } from '../components/Filter';
 import { Order, OrderProps } from '../components/Order';
 import { Button } from '../components/Button';
 
 export function Home() {
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
-  const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
-  const [orders, setOrders] = useState<OrderProps[]>([
-    {
-      id: '123',
-      patrimony: '123456',
-      when: '18/07/2022 ás 10:00',
-      status: 'open',
-    },
-  ]);
+  const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>(
+    'open'
+  );
+  const [orders, setOrders] = useState<OrderProps[]>([]);
+
+  function handleNewOrder() {
+    navigation.navigate('new');
+  }
 
   return (
     <VStack flex={1} pb={6} bg="gray.700">
@@ -68,13 +79,22 @@ export function Home() {
         <FlatList
           data={orders}
           keyExtractor={(item) => item.id}
-          renderItem={({item}) => <Order data={item}/>}
+          renderItem={({ item }) => <Order data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          ListEmptyComponent={() => (
+            <Center flex={1}>
+              <ChatTeardropText color={colors.gray[300]} size={50} />
+              <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
+                Você ainda não possui {'\n'}
+                solicitações{' '}
+                {statusSelected === 'open' ? 'em andamento.' : 'finalizadas.'}
+              </Text>
+            </Center>
+          )}
         />
 
-        <Button
-          title="Nova solicitação"
-        ></Button>
-
+        <Button title="Nova solicitação" onPress={handleNewOrder}/>
       </VStack>
     </VStack>
   );
