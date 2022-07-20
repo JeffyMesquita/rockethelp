@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Alert } from 'react-native';
 import { Heading, VStack, Icon, useTheme } from 'native-base';
 import { Envelope, Key } from 'phosphor-react-native';
 
@@ -10,12 +11,15 @@ import { Input } from '../components/Input';
 export function SignIn() {
   const { colors } = useTheme();
 
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = () => {
-    console.log('name', name);
-    console.log('password', password);
+    if(!email || !password) {
+      return Alert.alert('Entrar', 'Por favor, preencha todos os campos');
+    }
+
+    
   }
 
   return (
@@ -32,7 +36,7 @@ export function SignIn() {
         InputLeftElement={
           <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
         }
-        onChangeText={setName}
+        onChangeText={setEmail}
       />
       <Input
         mb={8}
