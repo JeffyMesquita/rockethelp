@@ -7,7 +7,7 @@ import {
   CircleWavyCheck,
   Hourglass,
   DesktopTower,
-  Clipboard,
+  ClipboardText,
 } from 'phosphor-react-native';
 
 import { dateFormat } from '../utils/firestoreDateFormat';
@@ -134,13 +134,13 @@ export function Details() {
           title="Equipamento"
           description={`Patrimônio ${order.patrimony}`}
           icon={DesktopTower}
-          footer={`Solicitado em ${order.when}`}
-        />
+          />
 
         <CardDetails
           title="Descrição do problema"
           description={order.description}
-          icon={Clipboard}
+          icon={ClipboardText}
+          footer={`Solicitado em ${order.when}`}
         />
 
         <CardDetails
